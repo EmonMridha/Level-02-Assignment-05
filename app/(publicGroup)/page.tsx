@@ -40,6 +40,7 @@ export default async function Home() {
     <div>
       <Hero />
 
+      {/* Properties */}
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
         {properties.map((property: IProperty) => (
           <PropertyCard
@@ -48,7 +49,6 @@ export default async function Home() {
           />
         ))}
       </div>
-
     </div>
   );
 }

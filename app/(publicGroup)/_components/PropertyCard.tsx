@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-export type IProperty = {
+export type OProperty = {
     property: {
         id: string;
         title: string;
@@ -32,7 +32,7 @@ export type IProperty = {
     };
 }
 
-export default function PropertyCard({ property }: IProperty) {
+export default function PropertyCard({ property }: OProperty) {
     return (
         <div className="overflow-hidden rounded-xl border shadow-sm">
             <Image
