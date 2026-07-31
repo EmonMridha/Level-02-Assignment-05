@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export type OProperty = {
     property: {
@@ -52,9 +53,11 @@ export default function PropertyCard({ property }: OProperty) {
 
                 <p>🏠 {property.category.name}</p>
 
-                <Button className="w-full">
-                    View Details
-                </Button>
+                <Link href={`/properties/${property.id}`}>
+                    <Button className="w-full">
+                        View Details
+                    </Button>
+                </Link>
             </div>
         </div>
     );
