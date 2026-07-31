@@ -51,8 +51,9 @@ export default function PropertiesFilter() {
 
             <select value={category} onChange={(e) => setCategory(e.target.value)} className="rounded border p-2">
                 <option value="">All Property Types</option>
-                <option value="">All Property Types</option>
-                <option value="">All Property Types</option>
+                <option value="Apartment">Apartment</option>
+                <option value="House">House</option>
+                <option value="Studio">Studio</option>
             </select>
             <button
                 onClick={applyFilters}
