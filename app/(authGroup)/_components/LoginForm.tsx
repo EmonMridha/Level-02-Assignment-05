@@ -1,13 +1,16 @@
 'use client'
+
 import { Card } from "@/components/ui/card"
 import { loginAction } from "../_actions/authActions"
 import { Button } from "@/components/ui/button"
 import { useActionState, useEffect } from "react"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 export const LoginForm = () => {
 
     const [state, action, pending] = useActionState(loginAction, false)
+    const router = useRouter()
 
     useEffect(() => {
         if (!state) {
@@ -15,6 +18,7 @@ export const LoginForm = () => {
         }
         if (state.success) {
             toast.success(state.message)
+            router.push('/dashboard')
         }
         if (!state.success) {
             toast.success(state.message)
