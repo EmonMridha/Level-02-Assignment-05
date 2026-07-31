@@ -1,11 +1,13 @@
+
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Shared/navbar";
 import Footer from "@/components/Shared/footer";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: "Assignment-05",
@@ -20,6 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <body className="min-h-full flex flex-col">
         <Navbar />
+        <Toaster position="top-right" richColors/>
         {children}
         <Footer />
       </body>

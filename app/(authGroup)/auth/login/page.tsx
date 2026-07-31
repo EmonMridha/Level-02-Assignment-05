@@ -16,6 +16,7 @@ const LoginPage = () => {
 
           {/* form */}
           <LoginForm></LoginForm>
+          
         </div>
       </div>
     </div>
