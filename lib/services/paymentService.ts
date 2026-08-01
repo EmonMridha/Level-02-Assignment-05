@@ -7,7 +7,7 @@ export const createCheckoutSession = async (requestId: string) => {
 
     // Implement payment logic here
     const res = await fetch(
-        `${process.env.BACKEND_API_URL}POST /api/payment/create`,
+        `${process.env.BACKEND_API_URL}/api/payment/create`,
         {
             method: "POST",
             headers: {
@@ -20,9 +20,11 @@ export const createCheckoutSession = async (requestId: string) => {
         }
     );
 
-    if (!res.ok) {
-        throw new Error("Failed to process payment");
+    const result = await res.json();
+
+    if (!result.success) {
+        throw new Error(result.message);
     }
 
-    return res.json();
+    return result;
 }
