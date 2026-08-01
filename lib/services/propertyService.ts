@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 
 export const getProperties = async (query?: {
     city?: string;
@@ -6,20 +5,15 @@ export const getProperties = async (query?: {
     maxPrice?: string;
     category?: string;
 }) => {
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get("accessToken")?.value;
     const params = new URLSearchParams();
     if (query?.city) params.set("city", query.city);
     if (query?.minPrice) params.set("minPrice", query.minPrice);
     if (query?.maxPrice) params.set("maxPrice", query.maxPrice);
     if (query?.category) params.set("category", query.category);
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/properties?${params.toString()}`, {
-        cache: "no-store",
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-        },
+        cache: "no-store"
     });
 
-    const result = res.json()
+    const result = await res.json();
     return result
 };

@@ -33,14 +33,16 @@ import { getProperties } from "@/lib/services/propertyService";
 import PropertyCard from "./_components/PropertyCard";
 
 export default async function Home() {
-  const res = await getProperties(); // GEtting all the properteis
+  const res = await getProperties();
+
+  console.log("Response:", res);
+
   const properties = res.data;
 
   return (
     <div>
       <Hero />
 
-      {/* Properties */}
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
         {properties.map((property: IProperty) => (
           <PropertyCard
