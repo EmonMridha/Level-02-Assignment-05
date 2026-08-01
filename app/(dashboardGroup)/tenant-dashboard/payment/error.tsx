@@ -1,6 +1,4 @@
 'use client'
-import React from 'react'
-import error from '../error'
 
 const Error = () => {
     return (
