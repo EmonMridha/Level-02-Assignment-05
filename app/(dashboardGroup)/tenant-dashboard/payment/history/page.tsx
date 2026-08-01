@@ -1,6 +1,8 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getPaymentHistory } from "@/lib/services/paymentService";
+import Link from "next/link";
 
 export interface IPayment {
     id: string;
@@ -96,7 +98,13 @@ export default async function PaymentHistoryPage() {
                                         </div>
                                     </div>
                                 </CardContent>
+                                <Link
+                                    href={`/tenant-dashboard/payment/review?propertyId=${payment.rentalRequest.property.id}`}
+                                >
+                                    <Button>Leave Review</Button>
+                                </Link>
                             </Card>
+
                         ))}
                     </div>
                 ) : (
