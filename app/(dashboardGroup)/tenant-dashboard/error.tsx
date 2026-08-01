@@ -1,7 +1,7 @@
 'use client'
 const error = () => {
   return (
-    <div>error</div>
+    <div>error happened in TenantDashboard</div>
   )
 }
 
