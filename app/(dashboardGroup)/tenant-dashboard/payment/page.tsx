@@ -1,13 +1,13 @@
 import { getRentalRequestById } from "@/lib/services/getRentRequests";
-import Link from "next/link";
+import { handlePayment } from "../../_actions/paymentActions";
 
 export default async function PaymentPage({
   searchParams,
 }: {
   searchParams: Promise<{ requestId: string }>;
 }) {
-  const { requestId } = await searchParams;
 
+  const { requestId } = await searchParams;
   const result = await getRentalRequestById(requestId);
   const request = result.data;
 
@@ -39,15 +39,24 @@ export default async function PaymentPage({
         <div className="mt-4 flex justify-between">
           <span>Total Amount</span>
           <span className="font-bold">
-            BDT 60,000
+            BDT {parseInt(request.property.rent).toLocaleString()}
           </span>
         </div>
 
-        <Link href={`/tenant-dashboard/payment?requestId=${requestId}`}>
-          <button className="mt-6 w-full rounded bg-black px-4 py-3 text-white">
-            Pay Now
+        <form action={handlePayment}>
+          <input
+            type="hidden"
+            name="requestId"
+            value={request.id}
+          />
+
+          <button
+            type="submit"
+            className="mt-6 w-full rounded bg-black px-4 py-3 text-white"
+          >
+            Pay BDT {parseInt(request.property.rent).toLocaleString()}
           </button>
-        </Link>
+        </form>
       </div>
     </div>
   );
