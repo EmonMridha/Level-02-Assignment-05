@@ -1,9 +1,54 @@
-import React from 'react'
+import { getRentalRequestById } from "@/lib/services/getRentRequests";
+import Link from "next/link";
 
-const Payments = () => {
+export default async function PaymentPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ requestId: string }>;
+}) {
+  const { requestId } = await searchParams;
+
+  const result = await getRentalRequestById(requestId);
+  const request = result.data;
+
   return (
-    <div>Payments</div>
-  )
-}
+    <div className="mx-auto max-w-2xl">
 
-export default Payments
+      <h1 className="mb-6 text-3xl font-bold">
+        Make Payment
+      </h1>
+
+      <div className="rounded-lg border bg-white p-6 shadow-sm">
+
+        <h2 className="text-xl font-semibold">
+          Property Details
+        </h2>
+
+        <div className="mt-4 space-y-2">
+          <p>🏠 {request.property.title}</p>
+          <p>📍 {request.property.city}</p>
+          <p>💰 BDT {parseInt(request.property.rent).toLocaleString()}/month</p>
+        </div>
+
+        <hr className="my-6" />
+
+        <h2 className="text-xl font-semibold">
+          Payment Summary
+        </h2>
+
+        <div className="mt-4 flex justify-between">
+          <span>Total Amount</span>
+          <span className="font-bold">
+            BDT 60,000
+          </span>
+        </div>
+
+        <Link href={`/tenant-dashboard/payment?requestId=${requestId}`}>
+          <button className="mt-6 w-full rounded bg-black px-4 py-3 text-white">
+            Pay Now
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
+}

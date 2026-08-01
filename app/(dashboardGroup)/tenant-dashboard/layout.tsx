@@ -14,7 +14,7 @@ const navigation = [
     { name: "Dashboard", href: "/tenant-dashboard", icon: HomeIcon },
     { name: "My Requests", href: "/tenant-dashboard/requests", icon: ClipboardDocumentListIcon },
     { name: "My Reviews", href: "/tenant-dashboard/reviews", icon: StarIcon },
-    { name: "Payments", href: "/tenant-dashboard/payment", icon: CreditCardIcon },
+    { name: "Payments", href: "/tenant-dashboard/payment/history", icon: CreditCardIcon },
 ];
 
 export default function TenantDashboardLayout({

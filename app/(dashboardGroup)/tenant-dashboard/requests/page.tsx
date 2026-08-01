@@ -1,5 +1,5 @@
 import { getMyRentalRequests } from "@/lib/services/getRentRequests";
-import Link from "next/dist/client/link";
+import Link from "next/link";
 export interface IRentalRequest {
     id: string;
     tenantId: string;
@@ -22,7 +22,7 @@ export interface IRentalRequest {
 export default async function RentalRequestsPage() {
     const result = await getMyRentalRequests();
 
-    const requests: IRentalRequest[] = result.data; // Getting the rental requests from the response
+    const requests: IRentalRequest[] = result.data ?? []; // Getting the rental requests from the response
 
     return (
         <div>
@@ -60,10 +60,10 @@ export default async function RentalRequestsPage() {
                             Status:
                             <span
                                 className={`ml-2 rounded px-2 py-1 text-sm ${request.status === "APPROVED"
-                                        ? "bg-green-100 text-green-700"
-                                        : request.status === "REJECTED"
-                                            ? "bg-red-100 text-red-700"
-                                            : "bg-yellow-100 text-yellow-700"
+                                    ? "bg-green-100 text-green-700"
+                                    : request.status === "REJECTED"
+                                        ? "bg-red-100 text-red-700"
+                                        : "bg-yellow-100 text-yellow-700"
                                     }`}
                             >
                                 {request.status}
