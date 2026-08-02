@@ -1,15 +1,16 @@
 import { cookies } from "next/headers"
 
-export const getAllUsers = async () => {
-    const cookieStore = await cookies();// license to access the cookies in browser
-    const accessToken = cookieStore.get('accessToken')?.value; // getting the accessToken from the cookies in the browser
+export const getAllUsers = async (page: number = 1, limit: number = 5, search: string = '') => {
+  const cookieStore = await cookies()
+  const accessToken = cookieStore.get('accessToken')?.value
 
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/auth/users`, {
-        cache: 'no-store',
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-        }
-    })
-    return res.json()
+  const res = await fetch(
+    `${process.env.BACKEND_API_URL}/api/auth/users?page=${page}&limit=${limit}&search=${search}`,
+    {
+      cache: 'no-store',
+      headers: { Authorization: `Bearer ${accessToken}` }
+    }
+  )
+  return res.json()
 }
 

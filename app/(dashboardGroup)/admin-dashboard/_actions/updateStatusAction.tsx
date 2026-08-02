@@ -1,13 +1,18 @@
 'use client'
 
-import { User } from "../admin/users/page"
-import { updateUserStatus } from "./updateUserStatus"
-
+import { toast } from 'sonner'
+import { updateUserStatus } from './updateUserStatus'
+import { User } from '../admin/users/UsersClient'
 
 export default function UserActions({ user }: { user: User }) {
     const handleToggle = async () => {
         const newStatus = user.status === 'ACTIVE' ? 'BLOCKED' : 'ACTIVE'
-        await updateUserStatus(user.id, newStatus)
+        try {
+            await updateUserStatus(user.id, newStatus)
+            toast.success(`User ${newStatus === 'ACTIVE' ? 'activated' : 'blocked'} successfully`)
+        } catch {
+            toast.error('Failed to update user status')
+        }
     }
 
     return (
