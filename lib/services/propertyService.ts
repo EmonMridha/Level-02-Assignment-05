@@ -13,7 +13,6 @@ export interface UpdatePropertyPayload {
     categoryId?: string;
 }
 
-
 export const getProperties = async (query?: {
     city?: string;
     minPrice?: string;
@@ -32,8 +31,6 @@ export const getProperties = async (query?: {
     const result = await res.json();
     return result
 };
-
-
 
 // landlord properties
 export const getPropertiesForLandlord = async () => {
@@ -71,3 +68,20 @@ export const updateProperty = async (
         }
     );
 };
+
+export const deleteProperty = async (propertyId: string) => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    const res = await fetch(
+        `${process.env.BACKEND_API_URL}/api/properties/${propertyId}`,
+        {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+
+    return res.json();
+}

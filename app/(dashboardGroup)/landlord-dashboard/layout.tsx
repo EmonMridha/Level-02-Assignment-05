@@ -37,6 +37,12 @@ export default function DashboardLayout({
                         >
                             Rental Requests
                         </Link>
+                        <Link
+                            href="/landlord-dashboard/properties/create"
+                            className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg font-medium text-sm transition-colors"
+                        >
+                            Create Property
+                        </Link>
                     </nav>
                 </div>
             </aside>
