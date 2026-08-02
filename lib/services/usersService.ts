@@ -12,3 +12,4 @@ export const getAllUsers = async () => {
     })
     return res.json()
 }
+

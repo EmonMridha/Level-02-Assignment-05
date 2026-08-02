@@ -1,4 +1,5 @@
 import { getAllUsers } from '@/lib/services/usersService'
+import UserActions from '../../_actions/userAction'
 
 export interface User {
   id: string
@@ -60,8 +61,7 @@ export default async function AllUsers({
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.role}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.status}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <button className="text-blue-600 mr-3">Edit</button>
-                    <button className="text-red-600">Suspend</button>
+                    <UserActions user={user} />
                   </td>
                 </tr>
               ))}
