@@ -1,8 +1,46 @@
-import React from 'react'
+import { IProperty } from '@/app/(publicGroup)/page'
+import { getPropertiesForLandlord } from '@/lib/services/propertyService'
 
-const LandlordProperties = () => {
+const LandlordProperties = async () => {
+  const res = await getPropertiesForLandlord()
+  const myProperties = res.data
   return (
-    <div>LandlordProperties</div>
+    <div className='flex justify-center'>
+      <div>
+        {
+          myProperties.map((property: IProperty) => (
+            <div key={property.id} className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+              <div className="flex justify-between items-start mb-3">
+                <h3 className="text-lg font-semibold text-gray-800">{property.title}</h3>
+                <span className={`px-2 py-1 text-xs rounded ${property.isAvailable ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                  }`}>
+                  {property.isAvailable ? '✓ Available' : '✗ Unavailable'}
+                </span>
+              </div>
+
+              <p className="text-gray-600 text-sm mb-2">{property.description}</p>
+              <p className="text-gray-500 text-sm mb-3">{property.address}, {property.city}</p>
+
+              <div className="flex gap-4 text-sm">
+                <span className="font-bold text-blue-600">${property.rent}</span>
+                <span className="text-gray-600">{property.bedrooms} beds</span>
+                <span className="text-gray-600">{property.bathrooms} baths</span>
+              </div>
+              {property.amenities.length > 0 && (
+                <div className="mt-3 flex gap-1">
+                  {property.amenities.map((item, i) => (
+                    <span key={i} className="text-xs bg-gray-100 px-2 py-1 rounded">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))
+        }
+      </div>
+
+    </div>
   )
 }
 

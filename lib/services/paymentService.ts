@@ -58,6 +58,23 @@ export const confirmPayment = async (sessionId: string) => {
     return result;
 };
 
+export const getTotalEarnings = async () => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    const res = await fetch(
+        `${process.env.BACKEND_API_URL}/api/payment/totalEarnings`,
+        {
+            cache: "no-store",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+
+    const result = await res.json();
+    return result;
+};
 
 export const getPaymentHistory = async () => {
     const cookieStore = await cookies();

@@ -20,13 +20,13 @@ export default function DashboardLayout({
                     {/* Navigation Links */}
                     <nav className="flex-1 px-4 py-6 space-y-2">
                         <Link
-                            href="/dashboard"
+                            href="/landlord-dashboard"
                             className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg font-medium text-sm transition-colors"
                         >
                             Dashboard
                         </Link>
                         <Link
-                            href="/properties"
+                            href="/landlord-dashboard/properties"
                             className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg font-medium text-sm transition-colors"
                         >
                             Properties
