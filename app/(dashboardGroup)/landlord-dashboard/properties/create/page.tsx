@@ -60,9 +60,9 @@ const CreatePropertyPage = () => {
       await createPropertyAction(formDataToSend)
       toast.success('Property created successfully! 🎉')
       router.push('/landlord-dashboard/properties')
-    } catch (error: any) {
+    } catch (error: unknown) {
       try {
-        const errorData = JSON.parse(error.message)
+        const errorData = JSON.parse((error as Error).message)
         if (errorData.errors) {
           setErrors(errorData.errors)
           toast.error('Please fix the validation errors')
@@ -70,7 +70,7 @@ const CreatePropertyPage = () => {
           toast.error(errorData.message || 'Failed to create property')
         }
       } catch {
-        toast.error(error.message || 'Failed to create property')
+        toast.error((error as Error).message || 'Failed to create property')
       }
     } finally {
       setLoading(false)
@@ -128,7 +128,7 @@ const CreatePropertyPage = () => {
                     value={formData.description}
                     onChange={handleChange}
                     placeholder="Describe your property in detail..."
-                    rows="3"
+                    rows={3}
                     className={`w-full px-4 py-3 bg-gray-50 border ${errors.description ? 'border-red-500' : 'border-gray-200'} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none`}
                     required
                   />

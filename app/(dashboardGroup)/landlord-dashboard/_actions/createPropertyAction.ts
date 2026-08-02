@@ -74,18 +74,7 @@ export async function createPropertyAction(formData: FormData) {
         revalidatePath('/landlord-dashboard/properties')
         redirect('/landlord-dashboard/properties?created=true')
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            const formattedErrors = error.errors.reduce((acc: any, err) => {
-                const path = err.path.join('.')
-                acc[path] = err.message
-                return acc
-            }, {})
 
-            throw new Error(JSON.stringify({
-                message: 'Validation failed',
-                errors: formattedErrors
-            }))
-        }
         throw error
     }
 }
