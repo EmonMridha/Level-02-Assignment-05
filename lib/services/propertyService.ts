@@ -13,6 +13,50 @@ export interface UpdatePropertyPayload {
     categoryId?: string;
 }
 
+export interface CreatePropertyPayLoad {
+    title: string
+    description: string
+    address: string
+    city: string
+    rent: number
+    bedrooms: number
+    bathrooms: number
+    amenities: string[]
+    categoryId: string
+    isAvailable?: boolean // Make it optional
+    images?: string[] // Also make images optional if needed
+}
+
+export const createProperty = async (payload: CreatePropertyPayLoad) => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    console.log("🔍 Sending payload:", JSON.stringify(payload, null, 2));
+
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/properties`, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+        let errorMessage = "Failed to create property";
+        try {
+            const errorData = await res.json();
+            console.log("❌ Backend Error:", errorData);
+            errorMessage = errorData.message || errorData.error || JSON.stringify(errorData);
+        } catch (e) {
+            console.log("❌ Could not parse error response");
+        }
+        throw new Error(errorMessage);
+    }
+
+    return res.json();
+}
+
 export const getProperties = async (query?: {
     city?: string;
     minPrice?: string;
@@ -67,6 +111,12 @@ export const updateProperty = async (
             body: JSON.stringify(payload),
         }
     );
+
+    if (!res.ok) {
+        throw new Error("Failed to update property");
+    }
+
+    return res.json();
 };
 
 export const deleteProperty = async (propertyId: string) => {
