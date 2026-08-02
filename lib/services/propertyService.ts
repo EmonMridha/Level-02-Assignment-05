@@ -1,5 +1,18 @@
 import { cookies } from "next/headers";
 
+export interface UpdatePropertyPayload {
+    title?: string;
+    description?: string;
+    address?: string;
+    city?: string;
+    rent?: number;
+    bedrooms?: number;
+    bathrooms?: number;
+    amenities?: string[];
+    isAvailable?: boolean;
+    categoryId?: string;
+}
+
 
 export const getProperties = async (query?: {
     city?: string;
@@ -37,3 +50,24 @@ export const getPropertiesForLandlord = async () => {
     const result = await res.json();
     return result;
 }
+
+// landlord 
+export const updateProperty = async (
+    propertyId: string,
+    payload: UpdatePropertyPayload
+) => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    const res = await fetch(
+        `${process.env.BACKEND_API_URL}/api/properties/${propertyId}`,
+        {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        }
+    );
+};

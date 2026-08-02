@@ -1,7 +1,13 @@
-import { IProperty } from '@/app/(publicGroup)/page'
-import { getPropertiesForLandlord } from '@/lib/services/propertyService'
 
-const LandlordProperties = async () => {
+import { IProperty } from '@/app/(publicGroup)/page'
+import { Button } from '@/components/ui/button'
+import { getPropertiesForLandlord } from '@/lib/services/propertyService'
+import Link from 'next/link'
+import SuccessToast from '../_components/success'
+
+
+const LandlordProperties = async ({ updated }: { updated?: string }) => {
+  <SuccessToast updated={updated}></SuccessToast>
   const res = await getPropertiesForLandlord()
   const myProperties = res.data
   return (
@@ -35,6 +41,13 @@ const LandlordProperties = async () => {
                   ))}
                 </div>
               )}
+              <div className="flex gap-2 mt-4">
+                <Link href={`/landlord-dashboard/properties/edit?propertyId=${property.id}`}><Button>Edit</Button></Link>
+                <Button variant="destructive">Delete</Button>
+                <Button variant="outline">
+                  {property.isAvailable ? "Mark Unavailable" : "Mark Available"}
+                </Button>
+              </div>
             </div>
           ))
         }
