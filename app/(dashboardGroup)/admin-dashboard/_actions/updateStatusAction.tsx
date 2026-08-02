@@ -3,6 +3,7 @@
 import { toast } from 'sonner'
 import { updateUserStatus } from './updateUserStatus'
 import { User } from '../admin/users/UsersClient'
+import { Button } from '@/components/ui/button'
 
 export default function UserActions({ user }: { user: User }) {
     const handleToggle = async () => {
@@ -17,13 +18,12 @@ export default function UserActions({ user }: { user: User }) {
 
     return (
         <>
-            <button className="text-blue-600 mr-3">Edit</button>
-            <button
+            <Button
                 onClick={handleToggle}
-                className={user.status === 'ACTIVE' ? 'text-red-600' : 'text-green-600'}
+                className={user.status === 'ACTIVE' ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-green-500 hover:bg-green-600 text-white'}
             >
                 {user.status === 'ACTIVE' ? 'Block' : 'Activate'}
-            </button>
+            </Button>
         </>
     )
 }

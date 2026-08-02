@@ -42,3 +42,18 @@ export const getRentalRequestsForLandlord = async () => {
     })
     return res.json()
 }
+
+// for admin
+export const getAllRequestsAdmin = async () => {
+    const cookieStore = await cookies();
+
+    const accessToken = await cookieStore.get('accessToken')?.value;
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/rentalRequests/admin`, {
+        cache: 'no-store',
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        }
+    })
+
+    return res.json()
+}
