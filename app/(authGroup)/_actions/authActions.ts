@@ -1,6 +1,7 @@
 "use server"
 
 import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 type LoginState = {
     success: boolean,
@@ -27,7 +28,6 @@ export type RegisterState = {
 }
 
 export const loginAction = async (prevState: LoginState, formData: FormData) => {
-
     try {
         const email = formData.get('email')
         const password = formData.get('password')
@@ -47,37 +47,48 @@ export const loginAction = async (prevState: LoginState, formData: FormData) => 
         const result = await res.json();
 
         if (result.success) {
-            const cookieStore = await cookies() // license to access the cookies in browser
+            const cookieStore = await cookies()
 
-            // setting the accessToken in the browser cookies
+            // Set accessToken
             cookieStore.set("accessToken", result.data.accessToken, {
                 httpOnly: true,
                 maxAge: 60 * 60 * 24,
-                sameSite: "lax"
+                sameSite: "lax",
+                path: '/'
             })
 
-            // setting the accessToken in the browser cookies
+            // Set refreshToken
             cookieStore.set("refreshToken", result.data.refreshToken, {
                 httpOnly: true,
                 maxAge: 60 * 60 * 24 * 7,
-                sameSite: "lax"
+                sameSite: "lax",
+                path: '/'
             })
+
+            // ✅ Set userRole - needed for middleware
+            const userRole = result.data.user?.role || result.data.role
+            cookieStore.set("userRole", userRole, {
+                httpOnly: true,
+                maxAge: 60 * 60 * 24 * 7,
+                sameSite: "lax",
+                path: '/'
+            })
+
+            // Redirect to appropriate dashboard based on role
+            const dashboard = getDashboardByRole(userRole)
+            if (dashboard) {
+                redirect(dashboard)
+            }
         }
 
         return result
     } catch (error) {
         return {
             success: false,
-            message: "Registration failed",
+            message: "Login failed",
             data: {
-                id: "",
-                name: "",
-                email: "",
-                phone: "",
-                role: "",
-                status: "",
-                createdAt: "",
-                updatedAt: ""
+                accessToken: "",
+                refreshToken: ""
             }
         }
     }
@@ -109,10 +120,23 @@ export const registerAction = async (prevState: RegisterState, formdata: FormDat
 
         const result = await res.json()
 
-        // Return the result in the expected format
+        // If registration successful, set userRole cookie
+        if (result.success) {
+            const cookieStore = await cookies()
+            const userRole = result.data?.role || role
+            cookieStore.set("userRole", userRole, {
+                httpOnly: true,
+                maxAge: 60 * 60 * 24 * 7,
+                sameSite: "lax",
+                path: '/'
+            })
+
+            // Redirect to login page after registration
+            redirect('/auth/login')
+        }
+
         return result
     } catch (error) {
-        // Return an error state
         return {
             success: false,
             message: "Registration failed",
@@ -127,5 +151,15 @@ export const registerAction = async (prevState: RegisterState, formdata: FormDat
                 updatedAt: ""
             }
         }
+    }
+}
+
+// Helper function to get dashboard URL based on role
+function getDashboardByRole(role: string): string | null {
+    switch (role?.toUpperCase()) {
+        case 'TENANT': return '/tenant-dashboard'
+        case 'LANDLORD': return '/landlord-dashboard'
+        case 'ADMIN': return '/admin-dashboard'
+        default: return null
     }
 }
