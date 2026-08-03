@@ -8,7 +8,8 @@ type LoginState = {
     message: string,
     data: {
         accessToken: string,
-        refreshToken: string
+        refreshToken: string,
+        userRole?: string  // ← Add optional userRole
     }
 }
 
@@ -63,7 +64,6 @@ export const loginAction = async (prevState: LoginState, formData: FormData) => 
                 path: '/'
             })
 
-            // ✅ Decode token to get role
             const token = result.data.accessToken
             const payloadBase64 = token.split('.')[1]
             const payload = JSON.parse(Buffer.from(payloadBase64, 'base64').toString())
@@ -76,9 +76,21 @@ export const loginAction = async (prevState: LoginState, formData: FormData) => 
                 path: '/'
             })
 
-            const dashboard = getDashboardByRole(userRole)
-            if (dashboard) {
-                redirect(dashboard)
+            // ❌ REMOVE this redirect:
+            // const dashboard = getDashboardByRole(userRole)
+            // if (dashboard) {
+            //     redirect(dashboard)
+            // }
+
+            // ✅ Return success with role for client-side redirect
+            return {
+                success: true,
+                message: result.message || "Login successful",
+                data: {
+                    accessToken: result.data.accessToken,
+                    refreshToken: result.data.refreshToken,
+                    userRole: userRole  // ← Add role to return
+                }
             }
         }
 
@@ -134,7 +146,7 @@ export const registerAction = async (prevState: RegisterState, formdata: FormDat
                 path: '/'
             })
 
-            redirect('/auth/login')
+            // redirect('/auth/login')
         }
 
         return result
@@ -161,10 +173,10 @@ export const registerAction = async (prevState: RegisterState, formdata: FormDat
 }
 
 function getDashboardByRole(role: string): string | null {
-  switch (role?.toUpperCase()) {
-    case 'TENANT': return '/tenant-dashboard'
-    case 'LANDLORD': return '/landlord-dashboard'
-    case 'ADMIN': return '/admin-dashboard'
-    default: return null
-  }
+    switch (role?.toUpperCase()) {
+        case 'TENANT': return '/tenant-dashboard'
+        case 'LANDLORD': return '/landlord-dashboard'
+        case 'ADMIN': return '/admin-dashboard'
+        default: return null
+    }
 }
