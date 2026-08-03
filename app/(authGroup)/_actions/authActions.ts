@@ -49,7 +49,6 @@ export const loginAction = async (prevState: LoginState, formData: FormData) => 
         if (result.success) {
             const cookieStore = await cookies()
 
-            // Set accessToken
             cookieStore.set("accessToken", result.data.accessToken, {
                 httpOnly: true,
                 maxAge: 60 * 60 * 24,
@@ -57,7 +56,6 @@ export const loginAction = async (prevState: LoginState, formData: FormData) => 
                 path: '/'
             })
 
-            // Set refreshToken
             cookieStore.set("refreshToken", result.data.refreshToken, {
                 httpOnly: true,
                 maxAge: 60 * 60 * 24 * 7,
@@ -65,8 +63,12 @@ export const loginAction = async (prevState: LoginState, formData: FormData) => 
                 path: '/'
             })
 
-            // ✅ Set userRole - needed for middleware
-            const userRole = result.data.user?.role || result.data.role
+            // ✅ Decode token to get role
+            const token = result.data.accessToken
+            const payloadBase64 = token.split('.')[1]
+            const payload = JSON.parse(Buffer.from(payloadBase64, 'base64').toString())
+            const userRole = payload?.role || 'TENANT'
+
             cookieStore.set("userRole", userRole, {
                 httpOnly: true,
                 maxAge: 60 * 60 * 24 * 7,
@@ -74,7 +76,6 @@ export const loginAction = async (prevState: LoginState, formData: FormData) => 
                 path: '/'
             })
 
-            // Redirect to appropriate dashboard based on role
             const dashboard = getDashboardByRole(userRole)
             if (dashboard) {
                 redirect(dashboard)
@@ -83,6 +84,9 @@ export const loginAction = async (prevState: LoginState, formData: FormData) => 
 
         return result
     } catch (error) {
+        if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
+            throw error
+        }
         return {
             success: false,
             message: "Login failed",
@@ -120,7 +124,6 @@ export const registerAction = async (prevState: RegisterState, formdata: FormDat
 
         const result = await res.json()
 
-        // If registration successful, set userRole cookie
         if (result.success) {
             const cookieStore = await cookies()
             const userRole = result.data?.role || role
@@ -131,12 +134,15 @@ export const registerAction = async (prevState: RegisterState, formdata: FormDat
                 path: '/'
             })
 
-            // Redirect to login page after registration
             redirect('/auth/login')
         }
 
         return result
     } catch (error) {
+        if (error instanceof Error && error.message.includes('NEXT_REDIRECT')) {
+            throw error
+        }
+        console.error("Registration error:", error)
         return {
             success: false,
             message: "Registration failed",
@@ -154,12 +160,11 @@ export const registerAction = async (prevState: RegisterState, formdata: FormDat
     }
 }
 
-// Helper function to get dashboard URL based on role
 function getDashboardByRole(role: string): string | null {
-    switch (role?.toUpperCase()) {
-        case 'TENANT': return '/tenant-dashboard'
-        case 'LANDLORD': return '/landlord-dashboard'
-        case 'ADMIN': return '/admin-dashboard'
-        default: return null
-    }
+  switch (role?.toUpperCase()) {
+    case 'TENANT': return '/tenant-dashboard'
+    case 'LANDLORD': return '/landlord-dashboard'
+    case 'ADMIN': return '/admin-dashboard'
+    default: return null
+  }
 }
