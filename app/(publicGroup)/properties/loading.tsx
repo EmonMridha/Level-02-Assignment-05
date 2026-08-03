@@ -1,16 +1,11 @@
+// app/landlord-dashboard/properties/loading.tsx
 export default function Loading() {
     return (
-        <div className="mx-auto max-w-7xl p-6">
-            <div className="mb-8 h-10 w-60 animate-pulse rounded bg-gray-200" />
-
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {Array.from({ length: 8 }).map((_, index) => (
-                    <div
-                        key={index}
-                        className="h-80 animate-pulse rounded-xl border border-gray-200 bg-gray-100 shadow-md"
-                    />
-                ))}
+        <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                <p className="mt-4 text-gray-500">Loading...</p>
             </div>
         </div>
-    );
+    )
 }

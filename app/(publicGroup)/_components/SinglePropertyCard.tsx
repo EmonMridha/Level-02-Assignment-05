@@ -38,7 +38,7 @@ export default function SinglePropertyCard({ property }: OProperty) {
     return (
         <div className="mx-auto max-w-4xl overflow-hidden rounded-xl border shadow-sm">
             <Image
-                src="/house-placeholder.jpg"
+                src="/images/property.jpg"
                 alt={property.title}
                 width={800}
                 height={500}

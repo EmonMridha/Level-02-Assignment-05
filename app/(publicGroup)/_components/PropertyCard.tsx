@@ -37,7 +37,7 @@ export default function PropertyCard({ property }: OProperty) {
     return (
         <div className="overflow-hidden rounded-xl border shadow-sm">
             <Image
-                src="/house-placeholder.jpg"
+                src="/images/property.jpg"
                 alt={property.title}
                 width={500}
                 height={300}
