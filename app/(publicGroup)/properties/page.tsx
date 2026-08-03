@@ -62,33 +62,33 @@ function PropertiesContent() {
     let filtered = [...properties];
 
     if (city) {
-      filtered = filtered.filter(p => 
+      filtered = filtered.filter(p =>
         p.city?.toLowerCase() === city.toLowerCase()
       );
     }
 
     if (minPrice) {
-      filtered = filtered.filter(p => 
+      filtered = filtered.filter(p =>
         Number(p.rent) >= Number(minPrice)
       );
     }
 
     if (maxPrice) {
-      filtered = filtered.filter(p => 
+      filtered = filtered.filter(p =>
         Number(p.rent) <= Number(maxPrice)
       );
     }
 
     if (category) {
-      filtered = filtered.filter(p => 
+      filtered = filtered.filter(p =>
         p.category?.name?.toLowerCase() === category.toLowerCase()
       );
     }
 
     if (amenitiesParams.length > 0) {
       filtered = filtered.filter(p => {
-        return amenitiesParams.every(selectedAmenity => 
-          p.amenities?.some(pa => 
+        return amenitiesParams.every(selectedAmenity =>
+          p.amenities?.some(pa =>
             pa.toLowerCase() === selectedAmenity.toLowerCase()
           )
         );
