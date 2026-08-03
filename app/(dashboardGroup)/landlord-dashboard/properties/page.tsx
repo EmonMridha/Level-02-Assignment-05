@@ -25,7 +25,7 @@ const LandlordProperties = async ({
             <div key={property.id} className="bg-white rounded-lg shadow hover:shadow-md transition-shadow overflow-hidden">
               <div className="flex flex-col md:flex-row">
                 {/* Image Section */}
-                <div className="relative w-full md:w-56 h-48 md:h-auto flex-shrink-0">
+                <div className="relative w-full md:w-56 h-48 md:h-auto shrink-0">
                   <Image
                     src="/images/property.jpg"
                     alt={property.title}
