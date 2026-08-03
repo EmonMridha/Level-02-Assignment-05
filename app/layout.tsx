@@ -21,7 +21,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <body className="min-h-full flex flex-col">
         <Navbar />
-        <Toaster position="top-right" richColors/>
+        <Toaster position="top-right" richColors />
         {children}
       </body>
     </html>
