@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers"
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 
 export async function createRentalRequest(formData: FormData) {
     const propertyId = formData.get('propertyId') as string
@@ -11,12 +12,9 @@ export async function createRentalRequest(formData: FormData) {
     const cookieStore = await cookies()
     const accessToken = cookieStore.get('accessToken')?.value
 
-    // Convert to ISO string with time to pass validation
-    const moveInDateISO = new Date(moveInDate).toISOString()
-
     const payload = {
         propertyId,
-        moveInDate: moveInDateISO,
+        moveInDate: new Date(moveInDate).toISOString(),
         message: message || undefined
     }
 
@@ -34,6 +32,9 @@ export async function createRentalRequest(formData: FormData) {
         throw new Error(errorData.message || 'Failed to create request')
     }
 
+    const data = await res.json()
+    const requestId = data.data.id
+
     revalidatePath('/tenant-dashboard/requests')
-    return { success: true }
+    redirect(`/tenant-dashboard/requests/${requestId}`)
 }

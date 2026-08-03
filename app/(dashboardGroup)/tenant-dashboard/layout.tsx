@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import {
     HomeIcon,
     ClipboardDocumentListIcon,
-    StarIcon,
     CreditCardIcon,
     ArrowRightOnRectangleIcon
 } from "@heroicons/react/24/outline";
@@ -13,7 +12,6 @@ import {
 const navigation = [
     { name: "Dashboard", href: "/tenant-dashboard", icon: HomeIcon },
     { name: "My Requests", href: "/tenant-dashboard/requests", icon: ClipboardDocumentListIcon },
-    { name: "My Reviews", href: "/tenant-dashboard/reviews", icon: StarIcon },
     { name: "Payments", href: "/tenant-dashboard/payment/history", icon: CreditCardIcon }
 ];
 
