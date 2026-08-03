@@ -35,8 +35,6 @@ import PropertyCard from "./_components/PropertyCard";
 export default async function Home() {
   const res = await getProperties();
 
-  console.log("Response:", res);
-
   const properties = res.data;
 
   return (

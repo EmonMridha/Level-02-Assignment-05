@@ -72,7 +72,21 @@ const EditProperties = async ({ searchParams }: { searchParams: Promise<{ proper
             className="border p-2 w-full"
           />
 
-          <label>
+          {/* Non-functional Image URL field */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Image URLs
+            </label>
+            <input
+              name="images"
+              placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+              className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl cursor-not-allowed text-gray-400"
+              disabled
+            />
+            <p className="text-xs text-gray-400 mt-1">Image upload feature coming soon</p>
+          </div>
+
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
               name="isAvailable"
