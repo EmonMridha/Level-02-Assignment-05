@@ -57,3 +57,23 @@ export const getAllRequestsAdmin = async () => {
 
     return res.json()
 }
+
+export const createRentalRequest = async (formData: { propertyId: string; moveInDate: string; message?: string }) => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get('accessToken')?.value;
+
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/rentalRequests`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(formData),
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to create rental request');
+    }
+    return res.json();
+}

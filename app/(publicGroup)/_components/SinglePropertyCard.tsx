@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export type OProperty = {
     property: {
@@ -88,9 +89,11 @@ export default function SinglePropertyCard({ property }: OProperty) {
                     {property.isAvailable ? "✅ Available" : "❌ Not Available"}
                 </p>
 
-                <Button className="w-full">
-                    Request to Rent
-                </Button>
+                <Link href={`/tenant-dashboard/requests/create?propertyId=${property.id}`}>
+                    <Button className="w-full">
+                        Request to Rent
+                    </Button>
+                </Link>
             </div>
         </div>
     );

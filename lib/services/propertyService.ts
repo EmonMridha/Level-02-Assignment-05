@@ -49,7 +49,7 @@ export const createProperty = async (payload: CreatePropertyPayLoad) => {
             console.log("❌ Backend Error:", errorData);
             errorMessage = errorData.message || errorData.error || JSON.stringify(errorData);
         } catch (e) {
-            console.log("❌ Could not parse error response");
+            console.error("❌ Error parsing backend response:", e);
         }
         throw new Error(errorMessage);
     }
