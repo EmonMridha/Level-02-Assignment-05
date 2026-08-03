@@ -15,7 +15,7 @@ const LandlordProperties = async ({
   const { updated, deleted } = await searchParams;
   const res = await getPropertiesForLandlord()
   const myProperties = res.data
-  
+
   return (
     <>
       <SuccessToast updated={updated} deleted={deleted} />
@@ -25,9 +25,8 @@ const LandlordProperties = async ({
             <div key={property.id} className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
               <div className="flex justify-between items-start mb-3">
                 <h3 className="text-lg font-semibold text-gray-800">{property.title}</h3>
-                <span className={`px-2 py-1 text-xs rounded ${
-                  property.isAvailable ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
-                }`}>
+                <span className={`px-2 py-1 text-xs rounded ${property.isAvailable ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                  }`}>
                   {property.isAvailable ? '✓ Available' : '✗ Unavailable'}
                 </span>
               </div>
@@ -40,7 +39,7 @@ const LandlordProperties = async ({
                 <span className="text-gray-600">{property.bedrooms} beds</span>
                 <span className="text-gray-600">{property.bathrooms} baths</span>
               </div>
-              
+
               {property.amenities.length > 0 && (
                 <div className="mt-3 flex gap-1">
                   {property.amenities.map((item, i) => (
@@ -50,22 +49,22 @@ const LandlordProperties = async ({
                   ))}
                 </div>
               )}
-              
+
               <div className="flex gap-2 mt-4">
                 <Link href={`/landlord-dashboard/properties/edit?propertyId=${property.id}`}>
                   <Button>Edit</Button>
                 </Link>
-                
+
                 <form action={deletePropertyAction}>
                   <input type="hidden" name="propertyId" value={property.id} />
                   <Button variant="destructive">Delete</Button>
                 </form>
-                
+
                 {/* Availability Toggle */}
                 <form action={toggleAvailabilityAction}>
                   <input type="hidden" name="propertyId" value={property.id} />
                   <input type="hidden" name="currentStatus" value={String(property.isAvailable)} />
-                  <Button 
+                  <Button
                     variant={property.isAvailable ? "outline" : "default"}
                     className={property.isAvailable ? "border-amber-500 text-amber-600 hover:bg-amber-50" : "bg-green-600 hover:bg-green-700"}
                   >

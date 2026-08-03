@@ -1,7 +1,6 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 import { createProperty } from '@/lib/services/propertyService'
 import { z } from 'zod'
 
@@ -35,7 +34,6 @@ const propertySchema = z.object({
 })
 
 export async function createPropertyAction(formData: FormData) {
-    // Extract data from formData FIRST
     const rawData = {
         title: formData.get('title') as string,
         description: formData.get('description') as string,
@@ -50,13 +48,9 @@ export async function createPropertyAction(formData: FormData) {
         categoryId: formData.get('categoryId') as string,
     }
 
-    console.log("📦 Raw form data:", rawData);
-
-    // Validate
     try {
         const validatedData = propertySchema.parse(rawData)
 
-        // Send with isAvailable (backend will ignore it if not needed)
         const backendData = {
             title: validatedData.title,
             description: validatedData.description,
@@ -67,14 +61,27 @@ export async function createPropertyAction(formData: FormData) {
             bathrooms: validatedData.bathrooms,
             amenities: validatedData.amenities,
             categoryId: validatedData.categoryId,
-            isAvailable: true, // Add this to match the type
+            isAvailable: true,
         }
         await createProperty(backendData)
 
         revalidatePath('/landlord-dashboard/properties')
-        redirect('/landlord-dashboard/properties?created=true')
+        return { success: true, message: 'Property created successfully!' }
     } catch (error) {
-
+        if (error instanceof z.ZodError) {
+            const formattedErrors = error.issues.reduce<Record<string, string>>(
+                (acc, issue) => {
+                    const path = issue.path.join('.')
+                    acc[path] = issue.message
+                    return acc
+                },
+                {}
+            )
+            throw new Error(JSON.stringify({
+                message: 'Validation failed',
+                errors: formattedErrors
+            }))
+        }
         throw error
     }
 }

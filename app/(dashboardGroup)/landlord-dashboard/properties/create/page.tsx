@@ -52,30 +52,33 @@ const CreatePropertyPage = () => {
     setErrors({})
 
     try {
-      const formDataToSend = new FormData()
-      Object.entries(formData).forEach(([key, value]) => {
-        formDataToSend.append(key, String(value))
-      })
+        const formDataToSend = new FormData()
+        Object.entries(formData).forEach(([key, value]) => {
+            formDataToSend.append(key, String(value))
+        })
 
-      await createPropertyAction(formDataToSend)
-      toast.success('Property created successfully! 🎉')
-      router.push('/landlord-dashboard/properties')
-    } catch (error: unknown) {
-      try {
-        const errorData = JSON.parse((error as Error).message)
-        if (errorData.errors) {
-          setErrors(errorData.errors)
-          toast.error('Please fix the validation errors')
-        } else {
-          toast.error(errorData.message || 'Failed to create property')
+        const result = await createPropertyAction(formDataToSend)
+        
+        if (result.success) {
+            toast.success(result.message || 'Property created successfully! 🎉')
+            router.push('/landlord-dashboard/properties')
         }
-      } catch {
-        toast.error((error as Error).message || 'Failed to create property')
-      }
+    } catch (error: unknown) {
+        try {
+            const errorData = JSON.parse((error as Error).message)
+            if (errorData.errors) {
+                setErrors(errorData.errors)
+                toast.error('Please fix the validation errors')
+            } else {
+                toast.error(errorData.message || 'Failed to create property')
+            }
+        } catch {
+            toast.error((error as Error).message || 'Failed to create property')
+        }
     } finally {
-      setLoading(false)
+        setLoading(false)
     }
-  }
+}
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 py-12 px-4">
@@ -97,6 +100,23 @@ const CreatePropertyPage = () => {
         {/* Form Card */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
           <form onSubmit={handleSubmit} className="p-8 space-y-6">
+
+            {/* Image URLs - Non-functional */}
+            <div>
+              <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Images</h2>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Image URLs
+                </label>
+                <input
+                  name="images"
+                  placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-not-allowed"
+                  disabled
+                />
+                <p className="text-xs text-gray-400 mt-1">Image upload feature coming soon</p>
+              </div>
+            </div>
 
             {/* Basic Information Section */}
             <div>
