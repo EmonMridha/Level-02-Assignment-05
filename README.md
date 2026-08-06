@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+Here the live link: https://assignment-05-flax.vercel.app/
+
 ## Getting Started
 
 First, run the development server:
