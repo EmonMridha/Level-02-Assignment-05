@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect, useState, Suspense, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -99,35 +99,57 @@ function PropertiesContent() {
   }, [properties, searchParams]);
 
   if (loading) {
-    return <div className="text-center py-10">Loading properties...</div>;
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center text-slate-600">
+        Loading properties...
+      </div>
+    );
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="mb-8 text-center text-3xl font-bold">
-        All Properties
-      </h1>
-
-      <PropertiesFilter />
-
-      {filteredProperties.length === 0 ? (
-        <p className="text-center text-gray-500">
-          No properties found matching your filters.
-        </p>
-      ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredProperties.map((property: IProperty) => (
-            <PropertyCard key={property.id} property={property} />
-          ))}
+    <div className="min-h-screen bg-slate-50">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+            Find Your Next Home
+          </h1>
+          <p className="mt-2 text-slate-600">
+            Browse available rental properties and find a place that fits your needs.
+          </p>
         </div>
-      )}
+
+        <PropertiesFilter />
+
+        {filteredProperties.length === 0 ? (
+          <div className="rounded-xl border border-slate-200 bg-white px-6 py-12 text-center">
+            <h2 className="text-lg font-semibold text-slate-900">
+              No properties found
+            </h2>
+            <p className="mt-2 text-sm text-slate-500">
+              Try changing or removing some of your filters.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredProperties.map((property: IProperty) => (
+              <PropertyCard key={property.id} property={property} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 export default function PropertiesPage() {
   return (
-    <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex min-h-[50vh] items-center justify-center text-slate-600">
+          Loading properties...
+        </div>
+      }
+    >
       <PropertiesContent />
     </Suspense>
   );

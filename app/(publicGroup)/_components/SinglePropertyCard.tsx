@@ -92,7 +92,9 @@ export default function SinglePropertyCard({ property }: OProperty) {
                 </p>
 
                 <Link href={`/tenant-dashboard/requests/create?propertyId=${property.id}`}>
-                    <Button className="w-full">
+                    <Button
+                        className="w-full bg-slate-900 text-white hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-amber-400"
+                    >
                         Request to Rent
                     </Button>
                 </Link>
