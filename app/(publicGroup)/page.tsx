@@ -39,16 +39,29 @@ export default async function Home() {
 
   return (
     <div>
+
       <Hero />
 
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
-        {properties.map((property: IProperty) => (
-          <PropertyCard
-            key={property.id}
-            property={property}
-          />
-        ))}
-      </div>
+      <section
+        aria-labelledby="properties-heading"
+        className="mx-auto max-w-7xl px-6 py-10"
+      >
+        <h2
+          id="properties-heading"
+          className="mb-6 text-2xl font-bold text-slate-900"
+        >
+          Available Properties
+        </h2>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {properties.map((property: IProperty) => (
+            <PropertyCard
+              key={property.id}
+              property={property}
+            />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

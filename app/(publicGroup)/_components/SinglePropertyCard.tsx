@@ -36,41 +36,41 @@ export type OProperty = {
 
 export default function SinglePropertyCard({ property }: OProperty) {
     return (
-        <div className="mx-auto max-w-4xl overflow-hidden rounded-xl border shadow-sm">
+        <div className="mx-auto max-w-4xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <Image
                 src="/images/property.jpg"
-                alt={property.title}
+                alt={`Property: ${property.title}`}
                 width={800}
                 height={500}
-                className="h-96 w-full object-cover"
+                className="h-72 w-full object-cover sm:h-96"
             />
 
-            <div className="space-y-4 p-6">
-                <h1 className="text-3xl font-bold">
+            <div className="space-y-6 p-5 sm:p-6">
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900">
                     {property.title}
                 </h1>
 
-                <p className="text-gray-600">
+                <p className="text-base leading-7 text-slate-600">
                     {property.description}
                 </p>
 
-                <div className="grid gap-3 md:grid-cols-2">
-                    <p>📍 Address: {property.address}</p>
-                    <p>🏙️ City: {property.city}</p>
-                    <p>💰 Rent: BDT {property.rent}/month</p>
-                    <p>🏠 Category: {property.category.name}</p>
-                    <p>🛏️ Bedrooms: {property.bedrooms}</p>
-                    <p>🚿 Bathrooms: {property.bathrooms}</p>
+                <div className="grid gap-3 rounded-xl bg-slate-50 p-4 sm:grid-cols-2">
+                    <p className="text-sm text-slate-700">📍 Address: {property.address}</p>
+                    <p className="text-sm text-slate-700">🏙️ City: {property.city}</p>
+                    <p className="text-sm text-slate-700">💰 Rent: BDT {property.rent}/month</p>
+                    <p className="text-sm text-slate-700">🏠 Category: {property.category.name}</p>
+                    <p className="text-sm text-slate-700">🛏️ Bedrooms: {property.bedrooms}</p>
+                    <p className="text-sm text-slate-700">🚿 Bathrooms: {property.bathrooms}</p>
                 </div>
 
                 <div>
-                    <h2 className="font-semibold">Amenities</h2>
+                    <h2 className="text-lg font-semibold text-slate-900">Amenities</h2>
 
                     <div className="mt-2 flex flex-wrap gap-2">
                         {property.amenities.map((amenity) => (
                             <span
                                 key={amenity}
-                                className="rounded bg-gray-100 px-3 py-1"
+                                className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700"
                             >
                                 {amenity}
                             </span>
@@ -79,7 +79,9 @@ export default function SinglePropertyCard({ property }: OProperty) {
                 </div>
 
                 <div>
-                    <h2 className="font-semibold">Landlord Information</h2>
+                    <h2 className="text-lg font-semibold text-slate-900">
+                        Landlord Information
+                    </h2>
                     <p>Name: {property.landlord.name}</p>
                     <p>Email: {property.landlord.email}</p>
                 </div>

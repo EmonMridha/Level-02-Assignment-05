@@ -35,26 +35,39 @@ export type OProperty = {
 
 export default function PropertyCard({ property }: OProperty) {
     return (
-        <div className="overflow-hidden rounded-xl border shadow-sm">
+        <div className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md">
             <Image
                 src="/images/property.jpg"
-                alt={property.title}
+                alt={`Property: ${property.title}`}
                 width={500}
                 height={300}
-                className="h-56 w-full object-cover"
+                className="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
 
-            <div className="space-y-2 p-4">
-                <h2 className="text-xl font-semibold">{property.title}</h2>
+            <div className="space-y-3 p-5">
+                <h2 className="line-clamp-1 text-xl font-bold tracking-tight text-slate-900">
+                    {property.title}
+                </h2>
 
-                <p>📍 {property.address}</p>
+                <p className="line-clamp-1 text-sm text-slate-600">
+                    <span aria-hidden="true">📍</span> {property.address}
+                </p>
 
-                <p>💰 BDT {property.rent}/month</p>
+                <p className="text-lg font-bold text-slate-900">
+                    <span aria-hidden="true">৳</span> {property.rent}
+                    <span className="ml-1 text-sm font-normal text-slate-500">
+                        /month
+                    </span>
+                </p>
 
-                <p>🏠 {property.category.name}</p>
+                <p className="text-sm text-slate-600">
+                    <span aria-hidden="true">🏠</span> {property.category.name}
+                </p>
 
                 <Link href={`/properties/${property.id}`}>
-                    <Button className="w-full">
+                    <Button
+                        className="w-full bg-slate-900 text-white transition-colors hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-amber-400"
+                    >
                         View Details
                     </Button>
                 </Link>
