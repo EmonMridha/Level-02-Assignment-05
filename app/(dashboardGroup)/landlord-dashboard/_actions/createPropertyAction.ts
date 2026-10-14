@@ -30,7 +30,7 @@ const propertySchema = z.object({
             'Amenities cannot contain empty values'
         ),
     categoryId: z.string()
-        .min(1, 'Category is required'),
+        .min(1, 'Category is required')
 })
 
 export async function createPropertyAction(formData: FormData) {
@@ -49,7 +49,7 @@ export async function createPropertyAction(formData: FormData) {
     }
 
     try {
-        const validatedData = propertySchema.parse(rawData)
+        const validatedData = propertySchema.parse(rawData) // validate the data against the schema
 
         const backendData = {
             title: validatedData.title,
@@ -63,7 +63,8 @@ export async function createPropertyAction(formData: FormData) {
             categoryId: validatedData.categoryId,
             isAvailable: true,
         }
-        await createProperty(backendData)
+
+        await createProperty(backendData) // Call the backend service to create the property
 
         revalidatePath('/landlord-dashboard/properties')
         return { success: true, message: 'Property created successfully!' }

@@ -31,8 +31,6 @@ export const createProperty = async (payload: CreatePropertyPayLoad) => {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value;
 
-    console.log("🔍 Sending payload:", JSON.stringify(payload, null, 2));
-
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/properties`, {
         method: "POST",
         headers: {

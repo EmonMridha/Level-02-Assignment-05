@@ -50,6 +50,7 @@ export const LoginForm = () => {
                     {pending ? "Submitting..." : "Login"}
                 </Button>
             </Card>
+            <p>Do not have an account? <a href="/auth/register" className="text-blue-500 hover:underline">Register</a></p>
         </form>
     )
 }

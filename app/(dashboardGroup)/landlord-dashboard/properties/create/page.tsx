@@ -52,33 +52,33 @@ const CreatePropertyPage = () => {
     setErrors({})
 
     try {
-        const formDataToSend = new FormData()
-        Object.entries(formData).forEach(([key, value]) => {
-            formDataToSend.append(key, String(value))
-        })
+      const formDataToSend = new FormData()
+      Object.entries(formData).forEach(([key, value]) => {
+        formDataToSend.append(key, String(value))
+      })
 
-        const result = await createPropertyAction(formDataToSend)
-        
-        if (result.success) {
-            toast.success(result.message || 'Property created successfully! 🎉')
-            router.push('/landlord-dashboard/properties')
-        }
+      const result = await createPropertyAction(formDataToSend)
+
+      if (result.success) {
+        toast.success(result.message || 'Property created successfully! 🎉')
+        router.push('/landlord-dashboard/properties')
+      }
     } catch (error: unknown) {
-        try {
-            const errorData = JSON.parse((error as Error).message)
-            if (errorData.errors) {
-                setErrors(errorData.errors)
-                toast.error('Please fix the validation errors')
-            } else {
-                toast.error(errorData.message || 'Failed to create property')
-            }
-        } catch {
-            toast.error((error as Error).message || 'Failed to create property')
+      try {
+        const errorData = JSON.parse((error as Error).message)
+        if (errorData.errors) {
+          setErrors(errorData.errors)
+          toast.error('Please fix the validation errors')
+        } else {
+          toast.error(errorData.message || 'Failed to create property')
         }
+      } catch {
+        toast.error((error as Error).message || 'Failed to create property')
+      }
     } finally {
-        setLoading(false)
+      setLoading(false)
     }
-}
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50 py-12 px-4">

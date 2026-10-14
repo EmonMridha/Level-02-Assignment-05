@@ -52,6 +52,7 @@ export const RegisterForm = () => {
           {pending ? "Submitting..." : "Register"}
         </Button>
       </Card>
+      <p>Already have an account? <a href="/auth/login" className="text-blue-500 hover:underline">Login</a></p>
     </form>
   )
 }
