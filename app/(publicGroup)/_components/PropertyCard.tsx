@@ -19,26 +19,41 @@ export type OProperty = {
         createdAt: string;
         updatedAt: string;
 
+        images: {
+            id: string;
+            url: string;
+            publicId: string | null;
+            altText: string | null;
+            order: number;
+            isPrimary: boolean;
+            propertyId: string;
+            createdAt: string;
+        }[];
+
         landlord: {
             name: string;
             email: string;
         };
 
         category: {
-            id: string,
-            name: string,
-            createdAt: string,
-            updatedAt: string
-        }
+            id: string;
+            name: string;
+            createdAt: string;
+            updatedAt: string;
+        };
     };
-}
+};
 
 export default function PropertyCard({ property }: OProperty) {
+    const primaryImage =
+        property.images?.find((img) => img.isPrimary) ??
+        property.images?.[0];
+
     return (
         <div className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md">
             <Image
-                src="/images/property.jpg"
-                alt={`Property: ${property.title}`}
+                src={primaryImage?.url ?? "/images/property.jpg"}
+                alt={primaryImage?.altText ?? `Property: ${property.title}`}
                 width={500}
                 height={300}
                 className="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -65,9 +80,7 @@ export default function PropertyCard({ property }: OProperty) {
                 </p>
 
                 <Link href={`/properties/${property.id}`}>
-                    <Button
-                        className="w-full bg-slate-900 text-white transition-colors hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-amber-400"
-                    >
+                    <Button className="w-full bg-slate-900 text-white transition-colors hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-amber-400">
                         View Details
                     </Button>
                 </Link>

@@ -21,6 +21,16 @@ interface IProperty {
   categoryId: string;
   createdAt: string;
   updatedAt: string;
+  images: {
+    id: string;
+    url: string;
+    publicId: string | null;
+    altText: string | null;
+    order: number;
+    isPrimary: boolean;
+    propertyId: string;
+    createdAt: string;
+  }[];
   landlord: {
     name: string;
     email: string;
@@ -33,11 +43,12 @@ interface IProperty {
   };
 }
 
-function PropertiesContent() {
+const PropertiesContent = () => {
   const searchParams = useSearchParams();
   const [properties, setProperties] = useState<IProperty[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // fetching all properties from the API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -138,19 +149,5 @@ function PropertiesContent() {
         )}
       </div>
     </div>
-  );
-}
-
-export default function PropertiesPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-[50vh] items-center justify-center text-slate-600">
-          Loading properties...
-        </div>
-      }
-    >
-      <PropertiesContent />
-    </Suspense>
   );
 }
