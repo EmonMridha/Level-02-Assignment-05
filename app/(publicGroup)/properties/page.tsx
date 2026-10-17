@@ -6,7 +6,7 @@ import PropertyCard from "../_components/PropertyCard";
 import PropertiesFilter from "../_components/PropertiesFilter";
 import { fetchProperties } from './propertyAction';
 
-interface IProperty {
+export interface IProperty {
   id: string;
   title: string;
   description: string;
@@ -151,3 +151,18 @@ const PropertiesContent = () => {
     </div>
   );
 }
+
+// component to wrap the PropertiesContent with Suspense for loading state (this is special)
+const PropertiesPage = () => {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-[50vh] items-center justify-center text-slate-600">
+        Loading properties...
+      </div>
+    }>
+      <PropertiesContent />
+    </Suspense>
+  );
+}
+
+export default PropertiesPage;   // <-- ADD THIS LINE

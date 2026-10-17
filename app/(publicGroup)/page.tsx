@@ -1,5 +1,5 @@
 // app/(publicGroup)/page.tsx
-export type IProperty = {
+export interface IProperty {
   id: string;
   title: string;
   description: string;
@@ -14,19 +14,27 @@ export type IProperty = {
   categoryId: string;
   createdAt: string;
   updatedAt: string;
-
+  images: {
+    id: string;
+    url: string;
+    publicId: string | null;
+    altText: string | null;
+    order: number;
+    isPrimary: boolean;
+    propertyId: string;
+    createdAt: string;
+  }[];
   landlord: {
     name: string;
     email: string;
   };
-
   category: {
     id: string;
     name: string;
     createdAt: string;
     updatedAt: string;
   };
-};
+}
 
 import Hero from "./_components/Hero";
 import { getProperties } from "@/lib/services/propertyService";

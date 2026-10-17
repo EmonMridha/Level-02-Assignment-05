@@ -1,59 +1,15 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { IProperty } from "../page";
 
-export type OProperty = {
-    property: {
-        id: string;
-        title: string;
-        description: string;
-        address: string;
-        city: string;
-        rent: string;
-        bedrooms: number;
-        bathrooms: number;
-        amenities: string[];
-        isAvailable: boolean;
-        landlordId: string;
-        categoryId: string;
-        createdAt: string;
-        updatedAt: string;
-
-        images: {
-            id: string;
-            url: string;
-            publicId: string | null;
-            altText: string | null;
-            order: number;
-            isPrimary: boolean;
-            propertyId: string;
-            createdAt: string;
-        }[];
-
-        landlord: {
-            name: string;
-            email: string;
-        };
-
-        category: {
-            id: string;
-            name: string;
-            createdAt: string;
-            updatedAt: string;
-        };
-    };
-};
-
-export default function PropertyCard({ property }: OProperty) {
-    const primaryImage =
-        property.images?.find((img) => img.isPrimary) ??
-        property.images?.[0];
+export default function PropertyCard({ property }: { property: IProperty }) {
 
     return (
         <div className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md">
             <Image
-                src={primaryImage?.url ?? "/images/property.jpg"}
-                alt={primaryImage?.altText ?? `Property: ${property.title}`}
+                src={property.images[0]?.url}
+                alt={property.images[0]?.altText ?? `Property: ${property.title}`}
                 width={500}
                 height={300}
                 className="h-56 w-full object-cover transition-transform duration-300 group-hover:scale-105"
