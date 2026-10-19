@@ -1,49 +1,14 @@
-import Image from "next/image";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { IProperty } from "../properties/page";
+import PropertyGallery from "@/components/Property-Gallery";
 
-export type OProperty = {
-    property: {
-        id: string;
-        title: string;
-        description: string;
-        address: string;
-        city: string;
-        rent: string;
-        bedrooms: number;
-        bathrooms: number;
-        amenities: string[];
-        isAvailable: boolean;
-        landlordId: string;
-        categoryId: string;
-        createdAt: string;
-        updatedAt: string;
 
-        landlord: {
-            id: string;
-            name: string;
-            email: string;
-        };
-
-        category: {
-            id: string;
-            name: string;
-            createdAt: string;
-            updatedAt: string;
-        };
-    };
-};
-
-export default function SinglePropertyCard({ property }: OProperty) {
+export default function SinglePropertyCard({ property }: { property: IProperty }) {
     return (
         <div className="mx-auto max-w-4xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <Image
-                src="/images/property.jpg"
-                alt={`Property: ${property.title}`}
-                width={800}
-                height={500}
-                className="h-72 w-full object-cover sm:h-96"
-            />
+            <PropertyGallery images={property.images ?? []} />
 
             <div className="space-y-6 p-5 sm:p-6">
                 <h1 className="text-3xl font-bold tracking-tight text-slate-900">

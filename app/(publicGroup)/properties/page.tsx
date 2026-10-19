@@ -44,7 +44,7 @@ export interface IProperty {
 }
 
 const PropertiesContent = () => {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams(); // it grabs the query params from the URL
   const [properties, setProperties] = useState<IProperty[]>([]);
   const [loading, setLoading] = useState(true);
 
